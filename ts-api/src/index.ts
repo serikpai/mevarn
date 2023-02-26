@@ -16,12 +16,12 @@ app.get('/alive', (req: Request, res: Response) => {
 
 app //
   .route('/people')
-  .get(ctrl.fetchAll)
-  .post(ctrl.create);
+  .get(ctrl.getAll)
+  .put(ctrl.create);
 
 app //
   .route('/people/:id')
-  .get(ctrl.getSingle);
+  .get(ctrl.getById);
 
 app.listen(PORT, () => {
   console.log(`[server:] Server is running at http://localhost:${PORT}`);

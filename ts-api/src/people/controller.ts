@@ -24,10 +24,12 @@ let personCache: Person[] = [
 ];
 
 export class PeopleController {
-  fetchAll(req: Request, res: Response): void {
+  // GET: /people
+  getAll(req: Request, res: Response): void {
     res.send(personCache);
   }
 
+  // PUT: /people
   create(req: Request, res: Response): void {
     const {
       body: { forename = '', surname = '', age = 18 }
@@ -42,10 +44,11 @@ export class PeopleController {
 
     personCache = [...personCache, person];
 
-    res.send(person);
+    res.send(person).status(201);
   }
 
-  getSingle(req: Request, res: Response): void {
+  // GET: /people/:id
+  getById(req: Request, res: Response): void {
     const {
       params: { id = 0 }
     } = req;
