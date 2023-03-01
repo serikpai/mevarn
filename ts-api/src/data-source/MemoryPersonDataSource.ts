@@ -42,7 +42,28 @@ export class MemoryPersonDataSource implements PersonDataSource {
       } else {
         reject('geht net!');
       }
-
     });
+  }
+
+  create(person: PersonDto): Promise<PersonDto> {
+    return new Promise<PersonDto>((resolve, reject) => {
+
+      const newPerson: PersonDto = {
+        ...person,
+        id: this.personCache.length + 1
+      };
+
+      this.personCache = [...this.personCache, newPerson];
+
+      resolve(newPerson);
+    });
+  }
+
+  delete(id: number): void {
+    throw 'not impl';
+  }
+
+  update(id: number, person: PersonDto): Promise<PersonDto> {
+    throw 'not impl';
   }
 }

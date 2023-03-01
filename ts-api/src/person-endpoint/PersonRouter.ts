@@ -1,10 +1,10 @@
 import express, { Request, Response, Router } from 'express';
-import { GetAllEndpoint } from '../person-endpoint-contract/GetAllEndpoint';
-import { GetByIdEndpoint } from '../person-endpoint-contract/GetByIdEndpoint';
+import { GetAllEndpoint, GetByIdEndpoint, PostEndpoint } from '.';
 
-export default function PersonRouter(
+export function PersonRouter(
   getAll: GetAllEndpoint,
-  getById: GetByIdEndpoint
+  getById: GetByIdEndpoint,
+  post: PostEndpoint
 ): Router {
   const router = express.Router();
 
@@ -15,6 +15,19 @@ export default function PersonRouter(
       res.status(200).send(people);
     } catch {
       res.status(500).send('something went wrong!');
+    }
+  });
+
+  router.post('/', async (req: Request, res: Response) => {
+    try {
+      const person = await post.handle(req.body);
+      res.status(201).send(person);
+    } catch (err) {
+      res.status(406).send({
+        statusCode: 406,
+        msg: 'something went wrong!',
+        error: err
+      });
     }
   });
 

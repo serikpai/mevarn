@@ -1,9 +1,8 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import PersonRouter from './person-endpoint/PersonRouter';
-import { GetAllEndpointImpl } from './person-endpoint/GetAllEndpointImpl';
+
 import { MemoryPersonDataSource } from './data-source/MemoryPersonDataSource';
-import { GetByIdEndpointImpl } from './person-endpoint/GetByIdEndpointImpl';
+import { GetAllEndpointImpl, GetByIdEndpointImpl, PersonRouter, PostEndpointImpl } from './person-endpoint';
 
 dotenv.config();
 
@@ -22,19 +21,11 @@ app.get('/alive', (req: Request, res: Response) => {
 
   const personMiddleware = PersonRouter(
     new GetAllEndpointImpl(personDataSource),
-    new GetByIdEndpointImpl(personDataSource)
+    new GetByIdEndpointImpl(personDataSource),
+    new PostEndpointImpl(personDataSource)
   );
 
   app.use('/person', personMiddleware);
-
-// app //
-//   .route('/people')
-//   .get(ctrl.getAll)
-//   .put(ctrl.create);
-//
-// app //
-//   .route('/people/:id')
-//   .get(ctrl.getById);
 
   app.listen(PORT, () => {
     console.log(`[server:] Server is running at http://localhost:${PORT}`);
