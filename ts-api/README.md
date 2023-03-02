@@ -1,6 +1,6 @@
 download packages:
 
-`node i -D nodemon @types/express @types/node typescript nodemon`
+`npm i -D nodemon @types/express @types/node typescript nodemon`
 
 ## `npm install`
 
